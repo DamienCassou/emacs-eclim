@@ -272,6 +272,7 @@ is convenient as it lets the user navigate between errors using
 	(filecol-size (eclim--problems-filecol-size))
 	(project-directory (concat (eclim--project-dir buffer-file-name) "/"))
 	(compil-buffer (get-buffer-create eclim--problems-compilation-buffer-name)))
+    (message "%s" problems)
     (with-current-buffer compil-buffer
       (setq default-directory project-directory)
       (setq buffer-read-only nil)
@@ -291,7 +292,7 @@ is convenient as it lets the user navigate between errors using
 	 (description (eclim--problem-description problem))
 	 (type (eclim--problem-type problem)))
     (let ((line (first position))
-	  (col (number-to-string (1+ (string-to-number (second position))))))
+	  (col (second position)))
       (insert (format "%s:%s:%s: %s: %s\n" filename line col (upcase type) description)))))
 
 (add-hook 'after-save-hook #'eclim--problems-update-maybe)
